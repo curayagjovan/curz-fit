@@ -56,7 +56,7 @@ export default function Page() {
 
   return (
     <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
-      <AppBar position="sticky">
+      <AppBar position="sticky" sx={{ pt: "env(safe-area-inset-top)" }}>
         <Toolbar sx={{ gap: 1.5 }}>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             CURZ FIT
@@ -71,6 +71,7 @@ export default function Page() {
         maxWidth="sm"
         sx={{
           py: 3,
+          pb: "calc(88px + env(safe-area-inset-bottom))",
           flexGrow: 1,
         }}
       >

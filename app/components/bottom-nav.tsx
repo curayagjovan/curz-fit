@@ -15,10 +15,11 @@ export default function BottomNav() {
     <Paper
       elevation={0}
       sx={{
-        position: "sticky",
+        position: "fixed",
         bottom: 0,
         left: 0,
         right: 0,
+        zIndex: (theme) => theme.zIndex.appBar,
         borderTop: 1,
         borderColor: "divider",
         paddingBottom: "env(safe-area-inset-bottom)",

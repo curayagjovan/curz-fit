@@ -311,7 +311,7 @@ export default function ProgramEditorPage({
 
   return (
     <Box sx={{ minHeight: "100dvh" }}>
-      <AppBar position="sticky">
+      <AppBar position="sticky" sx={{ pt: "env(safe-area-inset-top)" }}>
         <Toolbar sx={{ gap: 1.5 }}>
           <IconButton edge="start" onClick={onDone} aria-label="Back">
             <ArrowBackIcon />
