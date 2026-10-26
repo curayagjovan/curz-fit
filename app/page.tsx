@@ -16,6 +16,9 @@ import ProgramEditorPage from "@/app/pages/program-editor-page";
 import WorkoutPage from "@/app/pages/workout-page";
 import HistoryPage from "@/app/pages/history-page";
 
+const APP_BAR_HEIGHT = 56;
+const BOTTOM_NAV_HEIGHT = 56;
+
 export default function Page() {
   const { user, appUser, loading, signOut } = useAuth();
   const { currentPage, editingProgramId, closeProgramEditor } = usePageContext();
@@ -55,8 +58,11 @@ export default function Page() {
   };
 
   return (
-    <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
-      <AppBar position="sticky" sx={{ pt: "env(safe-area-inset-top)" }}>
+    <Box sx={{ height: "100dvh", overflow: "hidden" }}>
+      <AppBar
+        position="fixed"
+        sx={{ pt: "env(safe-area-inset-top)" }}
+      >
         <Toolbar sx={{ gap: 1.5 }}>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             CURZ FIT
@@ -67,21 +73,26 @@ export default function Page() {
         </Toolbar>
       </AppBar>
 
-      <Container
-        maxWidth="sm"
+      <Box
+        component="main"
         sx={{
-          py: 3,
-          pb: "calc(88px + env(safe-area-inset-bottom))",
-          flexGrow: 1,
+          height: "100dvh",
+          overflowY: "auto",
+          WebkitOverflowScrolling: "touch",
+          boxSizing: "border-box",
+          pt: `calc(env(safe-area-inset-top) + ${APP_BAR_HEIGHT}px)`,
+          pb: `calc(env(safe-area-inset-bottom) + ${BOTTOM_NAV_HEIGHT}px)`,
         }}
       >
-        <Box
-          key={currentPage}
-          sx={{ animation: "page-enter 240ms cubic-bezier(0.32, 0.72, 0, 1)" }}
-        >
-          {pageComponents[currentPage] || <ProgramsPage />}
-        </Box>
-      </Container>
+        <Container maxWidth="sm" sx={{ py: 3 }}>
+          <Box
+            key={currentPage}
+            sx={{ animation: "page-enter 240ms cubic-bezier(0.32, 0.72, 0, 1)" }}
+          >
+            {pageComponents[currentPage] || <ProgramsPage />}
+          </Box>
+        </Container>
+      </Box>
 
       <BottomNav />
     </Box>
