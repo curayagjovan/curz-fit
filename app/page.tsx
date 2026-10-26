@@ -58,9 +58,15 @@ export default function Page() {
   };
 
   return (
-    <Box sx={{ height: "100dvh", overflow: "hidden" }}>
+    <Box
+      sx={{
+        position: "relative",
+        height: "var(--app-vh, 100dvh)",
+        overflow: "hidden",
+      }}
+    >
       <AppBar
-        position="fixed"
+        position="absolute"
         sx={{ pt: "env(safe-area-inset-top)" }}
       >
         <Toolbar sx={{ gap: 1.5 }}>
@@ -76,7 +82,7 @@ export default function Page() {
       <Box
         component="main"
         sx={{
-          height: "100dvh",
+          height: "100%",
           overflowY: "auto",
           WebkitOverflowScrolling: "touch",
           boxSizing: "border-box",
