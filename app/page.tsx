@@ -11,17 +11,13 @@ import { useAuth } from "@/app/context/auth-context";
 import { usePageContext } from "@/app/context/page-context";
 import LoginScreen from "@/app/components/login-screen";
 import BottomNav from "@/app/components/bottom-nav";
-import ProgramsPage from "@/app/pages/programs-page";
-import ProgramEditorPage from "@/app/pages/program-editor-page";
-import WorkoutPage from "@/app/pages/workout-page";
-import HistoryPage from "@/app/pages/history-page";
 
 const APP_BAR_HEIGHT = 56;
 const BOTTOM_NAV_HEIGHT = 56;
 
 export default function Page() {
   const { user, appUser, loading, signOut } = useAuth();
-  const { currentPage, editingProgramId, closeProgramEditor } = usePageContext();
+  const { currentPage } = usePageContext();
 
   if (loading) {
     return (
@@ -41,21 +37,6 @@ export default function Page() {
   if (!user || !appUser) {
     return <LoginScreen />;
   }
-
-  if (editingProgramId !== null) {
-    return (
-      <ProgramEditorPage
-        programId={editingProgramId === "new" ? null : editingProgramId}
-        onDone={closeProgramEditor}
-      />
-    );
-  }
-
-  const pageComponents: Record<string, React.ReactNode> = {
-    programs: <ProgramsPage />,
-    workout: <WorkoutPage />,
-    history: <HistoryPage />,
-  };
 
   return (
     <Box
@@ -101,7 +82,9 @@ export default function Page() {
             key={currentPage}
             sx={{ animation: "page-enter 240ms cubic-bezier(0.32, 0.72, 0, 1)" }}
           >
-            {pageComponents[currentPage] || <ProgramsPage />}
+            <Typography variant="body2" color="text.secondary">
+              {currentPage} page — coming soon
+            </Typography>
           </Box>
         </Container>
       </Box>
