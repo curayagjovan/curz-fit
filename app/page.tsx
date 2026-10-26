@@ -30,7 +30,7 @@ export default function Page() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: "100dvh",
+          height: "100%",
         }}
       >
         <CircularProgress />
@@ -61,7 +61,7 @@ export default function Page() {
     <Box
       sx={{
         position: "relative",
-        height: "100dvh",
+        height: "100%",
         overflow: "hidden",
       }}
     >
@@ -90,6 +90,7 @@ export default function Page() {
           height: "100%",
           overflowY: "auto",
           WebkitOverflowScrolling: "touch",
+          overscrollBehavior: "none",
           boxSizing: "border-box",
           pt: `calc(env(safe-area-inset-top) + ${APP_BAR_HEIGHT}px)`,
           pb: `calc(env(safe-area-inset-bottom) + ${BOTTOM_NAV_HEIGHT}px)`,
