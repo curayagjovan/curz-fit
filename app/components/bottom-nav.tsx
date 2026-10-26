@@ -15,7 +15,7 @@ export default function BottomNav() {
     <Paper
       elevation={0}
       sx={{
-        position: "absolute",
+        position: "fixed",
         bottom: 0,
         left: 0,
         right: 0,
@@ -23,6 +23,9 @@ export default function BottomNav() {
         borderTop: 1,
         borderColor: "divider",
         paddingBottom: "env(safe-area-inset-bottom)",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
+        willChange: "transform",
       }}
     >
       <BottomNavigation

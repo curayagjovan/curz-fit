@@ -61,13 +61,18 @@ export default function Page() {
     <Box
       sx={{
         position: "relative",
-        height: "var(--app-vh, 100dvh)",
+        height: "100dvh",
         overflow: "hidden",
       }}
     >
       <AppBar
-        position="absolute"
-        sx={{ pt: "env(safe-area-inset-top)" }}
+        position="fixed"
+        sx={{
+          pt: "env(safe-area-inset-top)",
+          transform: "translateZ(0)",
+          WebkitTransform: "translateZ(0)",
+          willChange: "transform",
+        }}
       >
         <Toolbar sx={{ gap: 1.5 }}>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
