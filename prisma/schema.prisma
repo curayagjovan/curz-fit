@@ -18,7 +18,59 @@ model Exercise {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-  setLogs WorkoutSetLog[]
+  setLogs          WorkoutSetLog[]
+  programExercises ProgramExercise[]
+}
+
+model Program {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ownerId String
+  owner   AppUser @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+
+  days ProgramDay[]
+
+  @@index([ownerId])
+}
+
+model ProgramDay {
+  id        String   @id @default(cuid())
+  name      String
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  programId String
+  program   Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  exercises ProgramExercise[]
+  sessions  WorkoutSession[]
+
+  @@index([programId])
+}
+
+model ProgramExercise {
+  id             String   @id @default(cuid())
+  order          Int
+  targetSets     Int
+  targetReps     Int
+  targetWeightKg Decimal? @db.Decimal(6, 2)
+  notes          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  programDayId String
+  programDay   ProgramDay @relation(fields: [programDayId], references: [id], onDelete: Cascade)
+
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
+
+  @@index([programDayId])
+  @@index([exerciseId])
 }
 
 model WorkoutSession {
@@ -34,9 +86,13 @@ model WorkoutSession {
   memberId String
   member   AppUser @relation(fields: [memberId], references: [id], onDelete: Restrict)
 
+  programDayId String?
+  programDay   ProgramDay? @relation(fields: [programDayId], references: [id], onDelete: SetNull)
+
   sets WorkoutSetLog[]
 
   @@index([memberId])
+  @@index([programDayId])
 }
 
 model WorkoutSetLog {
@@ -99,6 +155,7 @@ model AppUser {
   updatedAt   DateTime        @updatedAt
 
   sessions WorkoutSession[]
+  programs Program[]
 }
 
 enum AppRole {

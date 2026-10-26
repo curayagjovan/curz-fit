@@ -7,6 +7,7 @@ import AppUpdateBanner from "@/app/components/app-update-banner";
 import ConnectivityBanner from "@/app/components/connectivity-banner";
 import NotificationPermissionManager from "@/app/components/notification-permission-manager";
 import { AuthProvider } from "@/app/context/auth-context";
+import { PageProvider } from "@/app/context/page-context";
 import appTheme from "@/app/theme";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -21,7 +22,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <AppUpdateBanner />
         <ConnectivityBanner />
         <AuthProvider>
-          {children}
+          <PageProvider>{children}</PageProvider>
           <NotificationPermissionManager />
         </AuthProvider>
       </ThemeProvider>
