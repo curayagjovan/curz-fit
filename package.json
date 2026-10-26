@@ -1,0 +1,45 @@
+{
+  "name": "curz-fit",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 1546",
+    "prebuild": "node scripts/stamp-sw-version.js",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "push:vapid": "web-push generate-vapid-keys",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
+    "db:seed-owner": "tsx prisma/seed-owner.ts",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.1",
+    "@mui/material": "^7.3.1",
+    "@mui/material-nextjs": "^7.3.1",
+    "@prisma/client": "^6.19.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "prisma": "^6.19.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5"
+  }
+}

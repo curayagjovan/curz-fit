@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Exercise {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  muscleGroup MuscleGroup @default(OTHER)
+  equipment   String?
+  description String?
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  setLogs WorkoutSetLog[]
+}
+
+model WorkoutSession {
+  id          String               @id @default(cuid())
+  sessionNo   String               @unique
+  status      WorkoutSessionStatus @default(IN_PROGRESS)
+  startedAt   DateTime             @default(now())
+  completedAt DateTime?
+  note        String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  memberId String
+  member   AppUser @relation(fields: [memberId], references: [id], onDelete: Restrict)
+
+  sets WorkoutSetLog[]
+
+  @@index([memberId])
+}
+
+model WorkoutSetLog {
+  id           String  @id @default(cuid())
+  setNumber    Int
+  reps         Int
+  weightKg     Decimal @db.Decimal(6, 2)
+  exerciseName String
+
+  sessionId  String
+  exerciseId String
+
+  session  WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
+
+  @@index([sessionId])
+  @@index([exerciseId])
+}
+
+enum MuscleGroup {
+  CHEST
+  BACK
+  LEGS
+  SHOULDERS
+  ARMS
+  CORE
+  CARDIO
+  OTHER
+}
+
+enum WorkoutSessionStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model PushSubscription {
+  id            String    @id @default(cuid())
+  endpoint      String    @unique
+  p256dh        String
+  auth          String
+  userAgent     String?
+  failCount     Int       @default(0)
+  lastSuccessAt DateTime?
+  lastFailureAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model AppUser {
+  id          String          @id @default(cuid())
+  authUserId  String?         @unique
+  email       String          @unique
+  displayName String?
+  role        AppRole         @default(MEMBER)
+  permissions AppPermission[] @default([])
+  isActive    Boolean         @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  sessions WorkoutSession[]
+}
+
+enum AppRole {
+  OWNER
+  MEMBER
+}
+
+enum AppPermission {
+  MANAGE_MEMBERS
+  MANAGE_EXERCISES
+  VIEW_REPORTS
+}
